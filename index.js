@@ -4,15 +4,18 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
+const apicache = require();
 
 const app = express();
 dotenv.config({ path: path.resolve(__dirname, '.env') });
-
+const cache = apicache.middleware;
 const PORT = process.env.PORT || 3000;
 const GNEWS_API_KEY = process.env.GNEWS_API_KEY || '';
 
 app.use(bodyParser.json());
 app.use(cors());
+
+app.use(cache('10 minutes'));
 
 const axiosInstance = axios.create({
   baseURL: process.env.GNEWS_API_URL,
